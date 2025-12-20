@@ -823,7 +823,6 @@ tr:nth-child(even) {
 }
 
 .preview-card-fixed {
-  height: 220px;
   overflow: hidden;
 }
 
