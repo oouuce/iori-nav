@@ -55,11 +55,14 @@ export async function onRequestPut(context) {
 
     // Fetch category name
     const categoryResult = await env.NAV_DB.prepare('SELECT catelog, is_private FROM category WHERE id = ?').bind(catelog_id).first();
-    const catelogName = categoryResult ? categoryResult.catelog : 'Unknown';
+    if (!categoryResult) {
+      return errorResponse('Category not found.', 400);
+    }
+    const catelogName = categoryResult.catelog;
 
     // If category is private, force site to be private
     let finalIsPrivate = isPrivateValue;
-    if (categoryResult && categoryResult.is_private === 1) {
+    if (categoryResult.is_private === 1) {
         finalIsPrivate = 1;
     }
 
